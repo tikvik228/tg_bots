@@ -109,19 +109,6 @@ async def first_response(update, context):
     # обработчиком states[2]
     return 2
 
-
-async def just_weather_response(update, context):
-    # Это ответ на первый вопрос.
-    # Мы можем использовать его во втором вопросе.
-    print(context, update.message.text)
-    locality = update.message.text
-    await update.message.reply_text(
-        f"Какая погода в городе {locality}?")
-    # Следующее текстовое сообщение будет обработано
-    # обработчиком states[2]
-    return 2
-
-
 async def second_response(update, context):
     # Ответ на второй вопрос.
     # Мы можем его сохранить в базе данных или переслать куда-либо.
@@ -154,9 +141,7 @@ def main():
             1: [MessageHandler(filters.TEXT & ~filters.COMMAND, first_response)],
             # Функция читает ответ на второй вопрос и завершает диалог.
             2: [MessageHandler(filters.TEXT & ~filters.COMMAND, second_response)],
-            3: [MessageHandler(filters.TEXT & ~filters.COMMAND, just_weather_response)]
         },
-
         # Точка прерывания диалога. В данном случае — команда /stop.
         fallbacks=[CommandHandler('stop', stop)]
     )
